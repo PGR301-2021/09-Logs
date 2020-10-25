@@ -1,4 +1,4 @@
-# Lab 10 - Logz.io
+#Logz.io
 
 I denne labben skal vi se hvor enkelt det er å sende logger til en SAAS tjeneste som heter logz.io fra Spring Boot applikasjonen. Vi skal også se på 12 factor prinsippet "Config" ved å ikke hardkode token og endepunlt for Logz.io i property filer. 
 
@@ -25,15 +25,14 @@ Modifiser Logback.xml slik at du også kan se loggene uten å gå til logz.io
 <configuration>
     <!-- Use shutdownHook so that we can close gracefully and finish the log drain -->
     <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
-    <appender name="LogzioLogbackAppender" class="io.logz.logback.LogzioLogbackAppender">
-        <token>asasaas</token>
-        <logzioUrl>https://some url: some port </logzioUrl>
+    <appender name="LOGZIO" class="io.logz.logback.LogzioLogbackAppender">
+        <token>$LOGZ_TOKEN</token>
+        <logzioUrl>https://listener.logz.io:8071</logzioUrl>
         <logzioType>myType</logzioType>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
+            <level>INFO</level>
         </filter>
     </appender>
-
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
@@ -43,25 +42,18 @@ Modifiser Logback.xml slik at du også kan se loggene uten å gå til logz.io
     </appender>
 
     <root level="info">
-        <!-- IMPORTANT: make sure to include this line, otherwise the appender won't be used -->
-        <appender-ref ref="LogzioLogbackAppender"/>
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="LOGZIO" />
+        <appender-ref ref="STDOUT"/>
     </root>
 </configuration>
-```
 
+
+```
 ## Ikke eksponer hemmelighet !
 
 Ta ut logzio URL pg logzio token til miljøvariable. Dette kan gjøres ved å sette inn $LOGZ_TOKEN og $LOGZ_URL inn i logback filen, og sette verdiene LOGZ_URL og LOGZ_TOKEN som en miljøvariabel 
  
-Bli kjent med hvordan dette gjøres ved å deploye applikasjonen til heroku - og la URL og Token være miljøvariable istedet for en del av logback.xml - Følg instruksjoner på ; https://devcenter.heroku.com/articles/config-vars
-
 For å lage en Heroku applikasjon av Spring Boot koden du jobber med (dersom du ikke har en allerede)
-
-```bash
-heroku create
-git push heroku master
-```
 
 Se ; https://devcenter.heroku.com/articles/git - hvis du trenger repetisjon av hvordan dette gjøres. 
 
@@ -71,6 +63,4 @@ Bli kjent med minst
 
 * Live Tail
 * kibana og "Discover" panelet, der man kan søke etter logger og filtrere på ulike felter i loggene
-* Visialiering. Prøv gjerne mer avanserte greier - men i alle fall et Pie chart som fordeler logger i INFO, DEBUG, ERROR
-
-
+* Visialiering. Prøv gjerne mer avanserte funksjoner - men i alle fall et Pie chart som fordeler logger i INFO, DEBUG, ERROR
