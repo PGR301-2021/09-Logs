@@ -51,11 +51,7 @@ Modifiser Logback.xml slik at du også kan se loggene uten å gå til logz.io
 ```
 ## Ikke eksponer hemmelighet !
 
-Ta ut logzio URL pg logzio token til miljøvariable. Dette kan gjøres ved å sette inn $LOGZ_TOKEN og $LOGZ_URL inn i logback filen, og sette verdiene LOGZ_URL og LOGZ_TOKEN som en miljøvariabel 
- 
-For å lage en Heroku applikasjon av Spring Boot koden du jobber med (dersom du ikke har en allerede)
-
-Se ; https://devcenter.heroku.com/articles/git - hvis du trenger repetisjon av hvordan dette gjøres. 
+Ta ut logzio URL pg logzio token til miljøvariabel. Dette kan gjøres ved å sette inn $LOGZ_TOKEN og $LOGZ_URL inn i logback filen, og sette verdiene LOGZ_URL og LOGZ_TOKEN som en miljøvariabel 
 
 ## Lek med Logz.io
 
