@@ -6,7 +6,7 @@ I denne øvelsen kan det være lurt å bruke en enkel Spring Boot applikasjon so
 
 ## Registrer deg på logz.io
 
-https://app.logz.io *
+* Gå til https://app.logz.io 
 * Velg "free trial". 
 * Bruk Frankfurt (AWS) som destinasjon 
 
