@@ -1,32 +1,31 @@
 package com.example.demo;
 
 import io.micrometer.core.annotation.Timed;
-import io.micrometer.core.instrument.*;
-import lombok.Data;
+import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
-import static java.math.BigDecimal.*;
+import static java.math.BigDecimal.valueOf;
 import static java.util.Optional.ofNullable;
-import static java.util.concurrent.TimeUnit.*;
 
 @RestController
 public class BankAccountController implements ApplicationListener<ApplicationReadyEvent> {
 
     private Map<String, Account> theBank = new HashMap();
+    private Logger logger = LoggerFactory.getLogger(BankAccountController.class);
+
 
     @Autowired
     private MeterRegistry meterRegistry;
@@ -46,7 +45,8 @@ public class BankAccountController implements ApplicationListener<ApplicationRea
     @Timed
     @PostMapping(path = "/account/{fromAccount}/transfer/{toAccount}", consumes = "application/json", produces = "application/json")
     public void transfer(@RequestBody Transaction tx, @PathVariable String fromAccount, @PathVariable String toAccount) {
-        meterRegistry.counter("transfer", "amount", String.valueOf(tx.getAmount()) ).increment();
+        logger.info("Money transfer from " + fromAccount + " to " + toAccount);
+        meterRegistry.counter("transfer", "amount", String.valueOf(tx.getAmount())).increment();
         Account from = getOrCreateAccount(fromAccount);
         Account to = getOrCreateAccount(toAccount);
         from.setBalance(from.getBalance().subtract(valueOf(tx.getAmount())));
@@ -62,10 +62,15 @@ public class BankAccountController implements ApplicationListener<ApplicationRea
 
     @PostMapping(path = "/account", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Account> updateAccount(@RequestBody Account a) {
+        logger.info("Account update/create " + a.getId());
         meterRegistry.counter("update_account").increment();
+        if (a.getBalance().floatValue() < 0) {
+            throw new IllegalArgumentException("Can't create an account with a negative balance");
+        }
         Account account = getOrCreateAccount(a.getId());
         account.setBalance(a.getBalance());
         account.setCurrency(a.getCurrency());
+        logger.info("Currency is " + a.getCurrency());
         theBank.put(a.getId(), a);
         return new ResponseEntity<>(a, HttpStatus.OK);
     }
@@ -78,6 +83,7 @@ public class BankAccountController implements ApplicationListener<ApplicationRea
      */
     @GetMapping(path = "/account/{accountId}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Account> balance(@PathVariable String accountId) {
+        logger.info("Account balance request " + accountId);
         meterRegistry.counter("balance").increment();
         Account account = ofNullable(theBank.get(accountId)).orElseThrow(AccountNotFoundException::new);
         meterRegistry.gauge("account_balance", account.getBalance());
