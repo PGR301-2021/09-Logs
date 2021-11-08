@@ -23,26 +23,32 @@ Modifiser Logback.xml slik at du også kan se loggene uten å gå til logz.io
 ```xml
 <!-- Use debug=true here if you want to see output from the appender itself -->
 <configuration>
-    <!-- Use shutdownHook so that we can close gracefully and finish the log drain -->
+    <!-- Closes gracefully and finishes the log drain -->
     <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
-    <appender name="LOGZIO" class="io.logz.logback.LogzioLogbackAppender">
-        <token>$LOGZ_TOKEN</token>
-        <logzioUrl>https://listener.logz.io:8071</logzioUrl>
-        <logzioType>myType</logzioType>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
-    </appender>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <!-- encoders are assigned the type
-             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
-            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+            <pattern>%d %-5level [%thread] %logger{0}: %msg%n</pattern>
+            <outputPatternAsHeader>true</outputPatternAsHeader>
         </encoder>
     </appender>
 
-    <root level="info">
-        <appender-ref ref="LOGZIO" />
+    <appender name="LogzioLogbackAppender" class="io.logz.logback.LogzioLogbackAppender">
+        <token>${LOGZ_TOKEN}</token>
+        <logzioUrl>https://listener-eu.logz.io:8071</logzioUrl>
+        <logzioType>bankapp_weblogs</logzioType>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <inMemoryQueue>true</inMemoryQueue>
+        <inMemoryQueueCapacityBytes>-1</inMemoryQueueCapacityBytes>
+    </appender>
+
+    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter">
+        <level value="DEBUG"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="LogzioLogbackAppender"/>
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>
