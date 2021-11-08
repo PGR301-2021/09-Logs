@@ -46,14 +46,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-influx -->
 		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-registry-influx</artifactId>
-			<version>1.5.5</version>
+			<groupId>io.logz.log4j2</groupId>
+			<artifactId>logzio-log4j2-appender</artifactId>
+			<version>v1.0.12</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
