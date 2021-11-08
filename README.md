@@ -61,8 +61,4 @@ Ta ut logzio URL pg logzio token til miljøvariabel. Dette kan gjøres ved å se
 
 ## Lek med Logz.io
 
-Bli kjent med minst 
-
-* Live Tail
-* kibana og "Discover" panelet, der man kan søke etter logger og filtrere på ulike felter i loggene
-* Visialiering. Prøv gjerne mer avanserte funksjoner - men i alle fall et Pie chart som fordeler logger i INFO, DEBUG, ERROR
+Bli kjent med minst kibana og "Discover" panelet, der man kan søke etter logger og filtrere på ulike felter 
