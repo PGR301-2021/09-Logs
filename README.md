@@ -6,8 +6,14 @@ I denne øvelsen kan det være lurt å bruke en enkel Spring Boot applikasjon so
 
 ## Registrer deg på logz.io
 
-https://app.logz.io - Det er meldt om problemer med å gjør sign up med Chrome og enkelt ad- blokkere. Bruk annen nettleser hvis dere ikke kommer dere forbi side en i registreringsskjemaet. 
-
+https://app.logz.io *
+* Velg "free trial". 
+* Bruk Frankfurt (AWS) som destinasjon
+* Velg "Send your logs" 
+* ![Alt text](img/1.png  "a title")
+* Velg Java Application
+* ![Alt text](img/2.png  "a title")
+* Velg "Logback" fanen
 ## Ship logs 
 
 * Se på "Ship logs" fanen i Logz.io, og let deg frem til "Libraries" og "Java Logback appender". Kopier logback.xml inn i en applikasjon du 
