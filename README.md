@@ -109,8 +109,5 @@ Før man starter spring boot applikasjonen
 
 ## Lek med Logz.io
 
-Bli kjent med minst; 
-
-* Live Tail
-* kibana og "Discover" panelet, der man kan søke etter logger og filtrere på ulike felter i loggene
-* Visualiering. Prøv gjerne mer avanserte funksjoner - men i alle fall et Pie chart som fordeler logger i INFO, DEBUG, ERROR
+Bli kjent med kibana og "Discover" panelet, der man kan søke etter logger og filtrere på ulike felter i loggene
+Bli ogsåp gjerne også med de andre funksjonene.
