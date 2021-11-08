@@ -23,7 +23,7 @@ Velg "Logback" fanen
 
 ## Pass på å logge både til standard out og Logz.io
 
-Modifiser Logback.xml slik at du også kan se loggene uten å gå til logz.io - Hvis du bruker deres eksempel, vil du miste logger i
+Modifiser Logback.xml (src/main/resources) slik at du også kan se loggene uten å gå til logz.io - Hvis du bruker deres eksempel, vil du miste logger i
 terminalvinduet.
 
 ```xml
@@ -39,7 +39,7 @@ terminalvinduet.
     </appender>
 
     <appender name="LogzioLogbackAppender" class="io.logz.logback.LogzioLogbackAppender">
-        <token>${LOGZ_TOKEN}</token>
+        <token><insert token here></token>
         <logzioUrl>https://listener-eu.logz.io:8071</logzioUrl>
         <logzioType>bankapp_weblogs</logzioType>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -68,7 +68,25 @@ terminalvinduet.
 ## Ikke eksponer hemmeligheter
 
 Vi ønsker ikke Logs.io API tokenet vårt i koden. Dette kan unngå ved å sette inn $LOGZ_TOKEN i logback filen. 
-Og deretter sette miljøvariabel *før* vi starter Spring Boot applikasjonen. 
+
+
+```xml
+<!-- Use debug=true here if you want to see output from the appender itself -->
+<configuration>
+....
+    <appender name="LogzioLogbackAppender" class="io.logz.logback.LogzioLogbackAppender">
+        <token>${LOGS_TOKEN}</token>
+        <logzioUrl>https://listener-eu.logz.io:8071</logzioUrl>
+        <logzioType>bankapp_weblogs</logzioType>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <inMemoryQueue>true</inMemoryQueue>
+        <inMemoryQueueCapacityBytes>-1</inMemoryQueueCapacityBytes>
+    </appender>
+....
+```
+deretter setteR VI EN miljøvariabel *før* vi starter Spring Boot applikasjonen.
 
 ### Osx
 ```shell
@@ -81,10 +99,12 @@ C:\> set LOGZ_TOKEN="qLcjggEnnEKr2utHIHSxetBBKEkstasasasVkv"
 ```
 
 ### Powershell
+
 ```shell
 # Windows PowerShell
 PS C:\> $env:LOGZ_TOKEN="qLcjggEnnEKr2utHIHSxetBBKEkstasasasVkv"
 ```
+
 Før man starter spring boot applikasjonen 
 
 ## Lek med Logz.io
