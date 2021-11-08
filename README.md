@@ -14,6 +14,8 @@ https://app.logz.io *
 * Velg Java Application
 * ![Alt text](img/2.png  "a title")
 * Velg "Logback" fanen
+
+
 ## Ship logs 
 
 * Se på "Ship logs" fanen i Logz.io, og let deg frem til "Libraries" og "Java Logback appender". Kopier logback.xml inn i en applikasjon du 
@@ -24,7 +26,8 @@ Start applikasjonen lokalt - og du vil se at det kommer mindre logger i konsolle
 
 ## Pass på å logge både til standard out og Logz.io
 
-Modifiser Logback.xml slik at du også kan se loggene uten å gå til logz.io
+Modifiser Logback.xml slik at du også kan se loggene uten å gå til logz.io - Hvis du bruker deres eksempel, vil du miste logger i 
+terminalvinduet. 
 
 ```xml
 <!-- Use debug=true here if you want to see output from the appender itself -->
@@ -59,11 +62,17 @@ Modifiser Logback.xml slik at du også kan se loggene uten å gå til logz.io
     </root>
 </configuration>
 
-
 ```
 ## Ikke eksponer hemmelighet !
 
-Ta ut logzio URL pg logzio token til miljøvariabel. Dette kan gjøres ved å sette inn $LOGZ_TOKEN og $LOGZ_URL inn i logback filen, og sette verdiene LOGZ_URL og LOGZ_TOKEN som en miljøvariabel 
+Ta ut logzio URL pg logzio token til miljøvariabel. Dette kan gjøres ved å sette inn $LOGZ_TOKEN og $LOGZ_URL inn i logback filen. 
+Så på osx 
+
+```shell
+export LOGZ_TOKEN=qLcjggEnnEKr2utHIHSxetBBKEkstasasasVkv
+```
+Før man starter applikasjonenen med 
+
 
 ## Lek med Logz.io
 
