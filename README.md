@@ -84,7 +84,7 @@ Vi ønsker ikke Logs.io API tokenet vårt i koden. Dette kan unngå ved å sette
 <configuration>
 ....
     <appender name="LogzioLogbackAppender" class="io.logz.logback.LogzioLogbackAppender">
-        <token>${LOGS_TOKEN}</token>
+        <token>${LOGZ_TOKEN}</token>
         <logzioUrl>https://listener-eu.logz.io:8071</logzioUrl>
         <logzioType>bankapp_weblogs</logzioType>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
