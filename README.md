@@ -19,12 +19,21 @@ Velg Java Application
 ![Alt text](img/2.png  "a title")
 Velg "Logback" fanen
 
-* Gjør nødvendig endring i pom.xml filen i henhold til bruksanvisningen.
+Gjør følgende endring i pom.xm (Legg til dependency)
 
-## Pass på å logge både til standard out og Logz.io
+```xml
+    <dependency>
+        <groupId>io.logz.logback</groupId>
+        <artifactId>logzio-logback-appender</artifactId>
+        <version>v1.0.25</version>
+    </dependency>
+```
+
+## logg både til standard out og Logz.io
 
 Modifiser Logback.xml (src/main/resources) slik at du også kan se loggene uten å gå til logz.io - Hvis du bruker deres eksempel, vil du miste logger i
 terminalvinduet.
+
 
 ```xml
 <!-- Use debug=true here if you want to see output from the appender itself -->
@@ -111,3 +120,10 @@ Før man starter spring boot applikasjonen
 
 Bli kjent med kibana og "Discover" panelet, der man kan søke etter logger og filtrere på ulike felter i loggene
 Bli ogsåp gjerne også med de andre funksjonene.
+
+## Utfordringer  
+
+* Kan du bygge et Docker image og pushe til ECR?
+* Kan du lage en github actions pipline som bygger et image og pusher til ECR?
+* Kan du lage  Terraform koden som lager ECR repo, og kjøre denne i en  Github actions pipeline ?
+* Kan du utvide Terraform koden så den også lager en Apprunner tjeneste av dette imaget?
